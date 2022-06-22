@@ -15,70 +15,90 @@ class _CounterHomeState extends State<CounterHome> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.blueGrey.shade100,
-          ),
-          height: 200,
-          width: size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BlocBuilder<CounterCubit, CounterState>(
-                builder: (context, state) {
-                  if (state.value < 0) {
-                    return Text(
-                      '${state.value}',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 40,
-                      ),
-                    );
-                  }
-
-                  if (state.value >= 0) {
-                    return Text(
-                      '${state.value}',
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 40,
-                      ),
-                    );
-                  } else {
-                    return Text(
-                      '${state.value}',
-                      style: const TextStyle(fontSize: 40),
-                    );
-                  }
-                },
+      body: BlocListener<CounterCubit, CounterState>(
+        listener: (context, state) {
+          if (state.wasIncremented) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Counter incremented'),
+                duration: Duration(seconds: 1),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                    },
-                    child: const CircleAvatar(
-                      radius: 35,
-                      child: Icon(Icons.remove, size: 50),
+            );
+          }
+          if (!state.wasIncremented) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Counter decremented'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          }
+        },
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.blueGrey.shade100,
+            ),
+            height: 200,
+            width: size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BlocBuilder<CounterCubit, CounterState>(
+                  builder: (context, state) {
+                    if (state.value < 0) {
+                      return Text(
+                        '${state.value}',
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 40,
+                        ),
+                      );
+                    }
+
+                    if (state.value >= 0) {
+                      return Text(
+                        '${state.value}',
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontSize: 40,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        '${state.value}',
+                        style: const TextStyle(fontSize: 40),
+                      );
+                    }
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        BlocProvider.of<CounterCubit>(context).decrement();
+                      },
+                      child: const CircleAvatar(
+                        radius: 35,
+                        child: Icon(Icons.remove, size: 50),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 40),
-                  InkWell(
-                    onTap: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                    },
-                    child: const CircleAvatar(
-                      radius: 35,
-                      child: Icon(Icons.add, size: 50),
+                    const SizedBox(width: 40),
+                    InkWell(
+                      onTap: () {
+                        BlocProvider.of<CounterCubit>(context).increment();
+                      },
+                      child: const CircleAvatar(
+                        radius: 35,
+                        child: Icon(Icons.add, size: 50),
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
