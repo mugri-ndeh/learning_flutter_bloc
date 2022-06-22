@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learning_flutter_bloc/counter_app/cubit/counter_cubit.dart';
 
 class CounterHome extends StatefulWidget {
   const CounterHome({Key? key}) : super(key: key);
@@ -24,28 +26,56 @@ class _CounterHomeState extends State<CounterHome> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '$counter',
-                style: const TextStyle(fontSize: 40),
+              BlocBuilder<CounterCubit, CounterState>(
+                builder: (context, state) {
+                  if (state.value < 0) {
+                    return Text(
+                      '${state.value}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 40,
+                      ),
+                    );
+                  }
+
+                  if (state.value >= 0) {
+                    return Text(
+                      '${state.value}',
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 40,
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      '${state.value}',
+                      style: const TextStyle(fontSize: 40),
+                    );
+                  }
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      BlocProvider.of<CounterCubit>(context).decrement();
+                    },
+                    child: const CircleAvatar(
+                      radius: 35,
+                      child: Icon(Icons.remove, size: 50),
+                    ),
+                  ),
+                  const SizedBox(width: 40),
+                  InkWell(
+                    onTap: () {
+                      BlocProvider.of<CounterCubit>(context).increment();
+                    },
                     child: const CircleAvatar(
                       radius: 35,
                       child: Icon(Icons.add, size: 50),
                     ),
                   ),
-                  const SizedBox(width: 40),
-                  InkWell(
-                    onTap: () {},
-                    child: const CircleAvatar(
-                      radius: 35,
-                      child: Icon(Icons.remove, size: 50),
-                    ),
-                  )
                 ],
               )
             ],
