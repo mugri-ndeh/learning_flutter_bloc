@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning_flutter_bloc/counter_app/logic/cubit/counter_cubit.dart';
+import 'package:learning_flutter_bloc/counter_app/ui/screens/second_screen.dart';
 
 class CounterHome extends StatefulWidget {
-  const CounterHome({Key? key}) : super(key: key);
+  const CounterHome({Key? key, required this.title, required this.color})
+      : super(key: key);
+  final String title;
+  final Color color;
 
   @override
   State<CounterHome> createState() => _CounterHomeState();
@@ -95,7 +99,19 @@ class _CounterHomeState extends State<CounterHome> {
                     ),
                   ),
                 ],
-              )
+              ),
+              MaterialButton(
+                  child: Text('Go to second screen'),
+                  color: widget.color,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SecondScreen(
+                                  title: 'Second Screen',
+                                  color: Colors.red,
+                                )));
+                  })
             ],
           ),
         ),
