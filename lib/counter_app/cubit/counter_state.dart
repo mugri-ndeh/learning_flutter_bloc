@@ -2,10 +2,10 @@ part of 'counter_cubit.dart';
 
 class CounterState {
   int value;
-  bool valid;
+  bool wasIncremented;
 
   CounterState({
     required this.value,
-    this.valid = false,
+    this.wasIncremented = false,
   });
 }
