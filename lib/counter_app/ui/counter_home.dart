@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learning_flutter_bloc/counter_app/cubit/counter_cubit.dart';
+import 'package:learning_flutter_bloc/counter_app/logic/cubit/counter_cubit.dart';
 
 class CounterHome extends StatefulWidget {
   const CounterHome({Key? key}) : super(key: key);
